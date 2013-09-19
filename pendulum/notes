@@ -1,0 +1,119 @@
+//@@ = data acquisition mode
+//## = initial routine
+
+
+Inner Loop Backup
+
+/*
+ * Inner_Loop.c
+ *
+ *  Created on: Sep 12, 2013
+ *      Author: Daniel
+ */
+#include "Functions.h"
+
+//Data Recording
+extern double Feedback_Store[100];
+extern double Output_Store[100];
+extern double Input_Store[100];
+//-----------------------------------
+
+long double Output[3] = {0};		//U(k-1) to U(k-3)
+long double Feedback[4] = {0};		//Y(k) to Y(k-3)
+long double Output_Current = 0;		//U(k)
+
+int store_Count = 0;
+
+
+float PWM = 0;
+unsigned int PWM_value = 0;
+unsigned long int s = 0;
+
+
+extern bool start_outer;
+bool start_inner = 1;
+
+double Torque_Reference = 0.1;
+
+interrupt void Inner_Loop( void )
+{
+	int i = 0;
+	unsigned long int debug = 0;
+	LED1 = 1;
+
+	if(start_inner == true)// || start_outer == true) //check if inner loop has been executed beforehand, if not clear arrays
+	{
+		for(i=0;i<3;i++)
+		{
+			Output[i] = 0;
+			Feedback[i] = 0;
+		}
+		Feedback[3] = 0;
+		start_inner = false;
+	}
+	else if(start_inner == false)// && start_outer == false)
+	{
+//----------------------------------Calculate Output Matrix--------------------------//
+		Output_Current = 0;
+		Output_Current += Reference_Factor*Torque_Reference;
+		Output_Current += (Output[0]*U1 + Output[1]*U2 + Output[2]*U3);
+		Output[2] = Output[1];
+		Output[1] = Output[0];
+
+//---------------------------------Calculate Feedback Matrix------------------------//
+
+		Feedback[3] = Feedback[2];
+		Feedback[2] = Feedback[1];
+		Feedback[1] = Feedback[0];
+		debug = Adc1Result.ADCRESULT1;
+		Feedback[0] = (debug*3.3/(1<<12)) - filter_offset;
+		if(Feedback[0] < 0.01 && Feedback[0] > -0.01)
+		{
+			Feedback[0] = 0;
+		}
+
+		Feedback[0]= Feedback[0]*filter_gain*Kt;
+
+		Output_Current += (Feedback[0]*Y0 + Feedback[1]*Y1 + Feedback[2]*Y2 + Feedback[3]*Y3 );
+//---------------------------------Update Output Matrix----------------------------------//
+		if(Output_Current > Vsupply*sat_per)
+		{
+			Output_Current = Vsupply*sat_per;
+		}
+		else if( Output_Current < -Vsupply*sat_per)
+		{
+			Output_Current = -Vsupply*sat_per;
+		}
+		Output[0] = Output_Current;
+
+//-----------------------------------PWM Saturation Control-------------------------------//
+	PWM = Output_Current/Vsupply;
+
+//--------------------------------------PWM calculation-----------------------------------//
+	PWM = (float)PWM*PWM_Period;
+	PWM_value = (Uint16)PWM;
+
+	if(PWM >= 0)
+	{
+		Direction = Pos_Dir; //Set Positive Direction
+	}
+	else if(PWM < 0)
+	{
+		Direction = Neg_Dir; //Set Negative Direction
+	}
+	EPwm3Regs.CMPA.half.CMPA = PWM_value;
+	LED1 = 0;
+	}
+	Input_Store[store_Count] = Torque_Reference;
+	Feedback_Store[store_Count] = Feedback[0];
+	Output_Store[store_Count] = Output_Current;
+	store_Count++;
+	if(store_Count == 100)
+	{
+		Alarm_ISR();
+	}
+
+    Adc1Regs.ADCINTFLGCLR.bit.ADCINT1 = 1;  //Clear ADCINT1 flag reinitialize for next SOC
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1; // Acknowledge interrupt to PIE
+}
+
