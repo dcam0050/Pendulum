@@ -21,17 +21,22 @@ void EPwmConfig(void);
 void sensorData(void);
 void PeripheralConfig(void);
 interrupt void Inner_Loop( void );
-//interrupt void Outer_Loop(void);
-//interrupt void Alarm_ISR(void);
+interrupt void Outer_Loop(void);
+interrupt void Alarm_ISR(void);
+interrupt void XINT2(void);
 
 //Pinouts
-#define LED1 		GpioG1DataRegs.GPADAT.bit.GPIO25
-#define LED2		GpioG1DataRegs.GPADAT.bit.GPIO27
-#define Direction 	GpioG1DataRegs.GPADAT.bit.GPIO10
-#define LED_0_DIR GpioG1CtrlRegs.GPCDIR.bit.GPIO70
-#define LED_0_DAT GpioG1DataRegs.GPCDAT.bit.GPIO70
-#define LED_1_DIR GpioG1CtrlRegs.GPCDIR.bit.GPIO71
-#define LED_1_DAT GpioG1DataRegs.GPCDAT.bit.GPIO71
+#define LED1 			GpioG1DataRegs.GPADAT.bit.GPIO25
+#define LED2 			GpioG1DataRegs.GPADAT.bit.GPIO26
+#define LED3			GpioG1DataRegs.GPADAT.bit.GPIO27
+
+#define Direction	 	GpioG1DataRegs.GPADAT.bit.GPIO24
+#define Direction_DIR 	GpioG1CtrlRegs.GPADIR.bit.GPIO24
+
+#define LED_0_DIR 		GpioG1CtrlRegs.GPCDIR.bit.GPIO70
+#define LED_0_DAT 		GpioG1DataRegs.GPCDAT.bit.GPIO70
+#define LED_1_DIR 		GpioG1CtrlRegs.GPCDIR.bit.GPIO71
+#define LED_1_DAT 		GpioG1DataRegs.GPCDAT.bit.GPIO71
 
 short int sign(double);
 
@@ -42,6 +47,7 @@ short int sign(double);
 #define  PWM_upperLimit			   0.75
 #define  PI						   3.14159265359
 #define  threshold 				   0xF0FFFFFF
+#define  readings 				   10
 
 //Outer Loop Constants
 #define M 					6
@@ -65,19 +71,20 @@ short int sign(double);
 #define Vsupply				28
 
 // Inner Loop Constants
-#define U1 0.4578
-#define U2 0.05693152
-#define U3 0.34286848
+#define U1 6848
+#define U2 -174
+#define U3 3326
 
-#define Reference_Factor 24520
+#define Reference_Factor 1344
 #define sat_per			 0.75
+#define gain 			 1.2
 
-#define Y0 -87160
-#define Y1 34760.16
-#define Y2 58397.2
-#define Y3 -30453.376
+#define Y0 -3451
+#define Y1 2107
+#define Y2 0
+#define Y3 0
 
-#define filter_offset 2.286273062
+
 #define filter_gain 9.383327128
 #define Kt 0.116
 

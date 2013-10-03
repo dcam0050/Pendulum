@@ -15,12 +15,14 @@ extern double tita_hist[3];
 extern double x_hist[3];
 int rev, counts = 0;
 double tita_cont,tita_prev = 0;
+extern char debugger;
 
 void sensorData(void)
 {
 	long int temp = 0;
+	debugger = 5;
 
-	EPwm2Regs.ETCLR.bit.INT = 1;							//Clear Interrupt in timer
+	//EPwm2Regs.ETCLR.bit.INT = 1;							//Clear Interrupt in timer
 	//Read data from absolute encoder
 	GpioG1DataRegs.GPADAT.bit.GPIO6 = 0; 					//Latch Output
 	temp = (GpioG1DataRegs.GPADAT.all & 0x000FFF00) >> 8;

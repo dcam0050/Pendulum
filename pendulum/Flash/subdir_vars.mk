@@ -26,6 +26,7 @@ C:/ti/controlSUITE/device_support/f28m35x/v201/F28M35x_common/source/F28M35x_Sys
 ../Peripheral_Configs.c \
 ../Sensor_Data.c \
 ../Setup.c \
+../Xint2.c \
 ../main.c 
 
 OBJS += \
@@ -46,6 +47,7 @@ OBJS += \
 ./Peripheral_Configs.obj \
 ./Sensor_Data.obj \
 ./Setup.obj \
+./Xint2.obj \
 ./main.obj 
 
 ASM_DEPS += \
@@ -68,6 +70,7 @@ C_DEPS += \
 ./Peripheral_Configs.pp \
 ./Sensor_Data.pp \
 ./Setup.pp \
+./Xint2.pp \
 ./main.pp 
 
 C_DEPS__QUOTED += \
@@ -86,6 +89,7 @@ C_DEPS__QUOTED += \
 "Peripheral_Configs.pp" \
 "Sensor_Data.pp" \
 "Setup.pp" \
+"Xint2.pp" \
 "main.pp" 
 
 OBJS__QUOTED += \
@@ -106,6 +110,7 @@ OBJS__QUOTED += \
 "Peripheral_Configs.obj" \
 "Sensor_Data.obj" \
 "Setup.obj" \
+"Xint2.obj" \
 "main.obj" 
 
 ASM_DEPS__QUOTED += \
@@ -128,6 +133,7 @@ C_SRCS__QUOTED += \
 "../Peripheral_Configs.c" \
 "../Sensor_Data.c" \
 "../Setup.c" \
+"../Xint2.c" \
 "../main.c" 
 
 ASM_SRCS__QUOTED += \

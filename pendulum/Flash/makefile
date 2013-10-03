@@ -9,6 +9,7 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/c2000_6.1.3
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./main.obj" \
+"./Xint2.obj" \
 "./Setup.obj" \
 "./Sensor_Data.obj" \
 "./Peripheral_Configs.obj" \
@@ -141,8 +142,8 @@ epwm_adc_soc.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C2000_EXECUTABLE_OUTPUTS__QUOTED) "epwm_adc_soc.out"
-	-$(RM) "Alarm_ISR.pp" "F28M35x_Adc.pp" "F28M35x_DefaultIsr.pp" "F28M35x_EPwm.pp" "F28M35x_EQep.pp" "F28M35x_GlobalVariableDefs.pp" "F28M35x_Gpio.pp" "F28M35x_PieCtrl.pp" "F28M35x_PieVect.pp" "F28M35x_SysCtrl.pp" "Inner_Loop.pp" "Outer_Loop.pp" "Peripheral_Configs.pp" "Sensor_Data.pp" "Setup.pp" "main.pp" 
-	-$(RM) "Alarm_ISR.obj" "F28M35x_Adc.obj" "F28M35x_CodeStartBranch.obj" "F28M35x_DefaultIsr.obj" "F28M35x_EPwm.obj" "F28M35x_EQep.obj" "F28M35x_GlobalVariableDefs.obj" "F28M35x_Gpio.obj" "F28M35x_PieCtrl.obj" "F28M35x_PieVect.obj" "F28M35x_SysCtrl.obj" "F28M35x_usDelay.obj" "Inner_Loop.obj" "Outer_Loop.obj" "Peripheral_Configs.obj" "Sensor_Data.obj" "Setup.obj" "main.obj" 
+	-$(RM) "Alarm_ISR.pp" "F28M35x_Adc.pp" "F28M35x_DefaultIsr.pp" "F28M35x_EPwm.pp" "F28M35x_EQep.pp" "F28M35x_GlobalVariableDefs.pp" "F28M35x_Gpio.pp" "F28M35x_PieCtrl.pp" "F28M35x_PieVect.pp" "F28M35x_SysCtrl.pp" "Inner_Loop.pp" "Outer_Loop.pp" "Peripheral_Configs.pp" "Sensor_Data.pp" "Setup.pp" "Xint2.pp" "main.pp" 
+	-$(RM) "Alarm_ISR.obj" "F28M35x_Adc.obj" "F28M35x_CodeStartBranch.obj" "F28M35x_DefaultIsr.obj" "F28M35x_EPwm.obj" "F28M35x_EQep.obj" "F28M35x_GlobalVariableDefs.obj" "F28M35x_Gpio.obj" "F28M35x_PieCtrl.obj" "F28M35x_PieVect.obj" "F28M35x_SysCtrl.obj" "F28M35x_usDelay.obj" "Inner_Loop.obj" "Outer_Loop.obj" "Peripheral_Configs.obj" "Sensor_Data.obj" "Setup.obj" "Xint2.obj" "main.obj" 
 	-$(RM) "F28M35x_CodeStartBranch.pp" "F28M35x_usDelay.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

@@ -10,13 +10,15 @@
 void Config_Current_ADC(void);
 void Config_PS_ADC(void);
 void EQEP_Init(void);
+extern char debugger;
 
 
 void PeripheralConfig(void)
 {
+	debugger = 3;
 	Config_Current_ADC();
 	EQEP_Init();
-	Config_PS_ADC();
+	//Config_PS_ADC();
 	return;
 }
 
@@ -37,7 +39,11 @@ void EQEP_Init(void)
 
 void EPwmConfig(void)
 {
-    // Time-base registers
+	EALLOW;
+	SysCtrlRegs.PCLKCR0.bit.TBCLKSYNC = 0;       // Stop all the TB clocks
+	EDIS;
+
+	// Time-base registers
     EPwm3Regs.TBPRD = PWM_Period;                       // Set timer period
     EPwm3Regs.TBPHS.half.TBPHS = 0x0000;          		// Phase is 0
     EPwm3Regs.TBCTR = 0x0000;                     		// Clear counter
@@ -48,7 +54,7 @@ void EPwmConfig(void)
     EPwm3Regs.TBCTL.bit.HSPCLKDIV = TB_DIV1;      		// Clock ratio to SYSCLKOUT
     EPwm3Regs.TBCTL.bit.CLKDIV = TB_DIV1;
     // Setup compare
-    EPwm3Regs.CMPA.half.CMPA = PWM_Period*0.7;
+    EPwm3Regs.CMPA.half.CMPA = 0;
 
     // Set actions
     EPwm3Regs.AQCTLA.bit.CAU = AQ_CLEAR;             		// Set PWM3A on Zero
@@ -118,7 +124,7 @@ void Config_Current_ADC( void )
     return;
 }
 
-void Config_PS_ADC( void )
+/*void Config_PS_ADC( void )
 {
     // Configure ADC
     EALLOW;
@@ -135,7 +141,7 @@ void Config_PS_ADC( void )
 
     EDIS;
     return;
-}
+}*/
 
 
 

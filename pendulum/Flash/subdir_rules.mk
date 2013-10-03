@@ -122,6 +122,13 @@ Setup.obj: ../Setup.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+Xint2.obj: ../Xint2.c $(GEN_OPTS) $(GEN_SRCS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C2000 Compiler'
+	"C:/ti/ccsv5/tools/compiler/c2000_6.1.3/bin/cl2000" -v28 -ml -mt --float_support=fpu32 -g --include_path="C:/ti/ccsv5/tools/compiler/c2000_6.1.3/include" --include_path="C:/ti/controlSUITE/device_support/f28m35x/v201/F28M35x_common/include" --include_path="C:/ti/controlSUITE/device_support/f28m35x/v201/F28M35x_examples_Control/eqep_pos_speed/c28" --include_path="C:/ti/controlSUITE/device_support/f28m35x/v201/F28M35x_headers/include" --include_path="C:/ti/controlSUITE/libs/math/FPUfastRTS/V100/include" --include_path="C:/ti/controlSUITE/libs/math/IQmath/v160/include" --define="_DEBUG" --define="_FLASH" --define="LARGE_MODEL" --diag_warning=225 --no_fast_branch --preproc_with_compile --preproc_dependency="Xint2.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 main.obj: ../main.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C2000 Compiler'

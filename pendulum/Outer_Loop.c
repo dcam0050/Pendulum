@@ -14,11 +14,14 @@ double VREF, Force, ws, wl, mju, Fsw, Fl, ANGV, e1, e2 = 0;
 double xd, O, f1, f2, d2, d1, gwn, phiwn, DV, row, a, E, Ed =0;
 double tita_hist[3] = {0};
 double x_hist[3] = {0};
+extern char debugger;
+
 
 interrupt void Outer_Loop(void)
 {
 	int i = 0;
 	double Torque_Reference;
+	debugger = 5;
 	if(start_outer == true)
 	{
 		for(i=0;i<4;i++)
@@ -33,7 +36,7 @@ interrupt void Outer_Loop(void)
 	else
 	{
 		sensorData();	//getData
-
+		debugger = 6;
 //-----------------------------Transition Controller----------------------//
 
 		ANGV=xdot/divider;
@@ -102,10 +105,10 @@ interrupt void Outer_Loop(void)
 		{ Torque_Reference = Saturation; }
 		if(Torque_Reference <= -Saturation)
 		{ Torque_Reference = -Saturation; }
-
-		PieCtrlRegs.PIEACK.all = PIEACK_GROUP3; // Acknowledge interrupt to PIE
-		return;
 	}
+	EPwm2Regs.ETCLR.bit.INT = 1;
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3; // Acknowledge interrupt to PIE
+	return;
 
 }
 
